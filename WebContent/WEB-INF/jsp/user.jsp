@@ -24,7 +24,7 @@
 </div>
 
 <div class="info">
-    <span class="greeting">亲爱的<span id="name">×××</span>您好!</span>
+    <span class="greeting">亲爱的<span id="name">{$name}</span>您好!</span>
     <span class="date"><%@ include file="time.jsp" %></span>
 </div>
 

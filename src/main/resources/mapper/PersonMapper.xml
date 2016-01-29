@@ -17,6 +17,22 @@
     <result column="LOG_NM" property="logNm" jdbcType="VARCHAR" />
   </resultMap>
 
+  <select id="getPwByUserName" resultType="java.lang.String">
+    SELECT LOG_PW FROM person WHERE LOG_NM = #{name}
+  </select>
+
+  <select id="getPersonByUserName" resultMap="BaseResultMap">
+    SELECT
+      PERSON_ID, ID_CRL,
+      NAME,
+      PHONE, LOG_PW, GENDER,
+      ADDRESS, LOG_NM
+    FROM
+      person
+    WHERE
+      LOG_NM = #{name}
+  </select>
+
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated
@@ -93,15 +109,6 @@
     -->
     PERSON_ID, ID_CRL, NAME, PHONE, LOG_PW, GENDER, ADDRESS, LOG_NM
   </sql>
-
-  <select id="getPwByUserName" parameterType="java.lang.String" resultType="java.lang.String">
-    SELECT
-    LOG_PW
-    FROM
-    person
-    WHERE
-    LOG_NM = #{name,jdbcType=VARCHAR}
-  </select>
 
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ericlai.express.dto.PersonExample" >
     <!--
