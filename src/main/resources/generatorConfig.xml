@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1.0.dtd">
+
+<!-- mybatis-generator的核心配置文件 -->
+
+<generatorConfiguration>
+
+    <!--指定特定数据库的jdbc驱动jar包的位置 -->
+    <classPathEntry
+            location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar" />
+
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+
+        <!--jdbc的数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/intelligentexpress"
+                        userId="root"
+                        password="6868">
+        </jdbcConnection>
+
+        <!-- false：JDBC DECIMAL、NUMERIC类型解析为Integer，默认方式 -->
+        <!-- true： JDBC DECIMAL、NUMERIC类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--生成的dto 包路径 -->
+        <javaModelGenerator targetPackage="com.ericlai.express.dto"
+                            targetProject="src">
+            <property name="enableSubPackages" value="ture" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
+        <sqlMapGenerator targetPackage="com.ericlai.express.mapper"
+                         targetProject="src">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 生成的Dao接口 的包路径 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.ericlai.express.dao" targetProject="src">
+            <property name="enableSubPackages" value="ture" />
+        </javaClientGenerator>
+
+        <table tableName="%" />
+
+    </context>
+</generatorConfiguration>
