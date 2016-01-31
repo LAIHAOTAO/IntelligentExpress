@@ -6,7 +6,7 @@ package com.ericlai.express.model;
 public class QueryModel {
 
     /**
-     * 快递单号
+     * 快递号
      */
     private String packageNo;
 

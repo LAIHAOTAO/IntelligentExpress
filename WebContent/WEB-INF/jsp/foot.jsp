@@ -11,6 +11,6 @@
     <title>foot</title>
 </head>
 <body>
-  <span>© 广州大学机械与电气工程学院 赖浩滔 杨家烨 all right reserved, 2015 </span>
+  <span>© 广州大学机械与电气工程学院 赖浩滔 杨家烨 陈默 all right reserved, 2015 </span>
 </body>
 </html>

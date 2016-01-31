@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>manager</title>
@@ -26,7 +27,7 @@
 </div>
 
 <div class="info">
-    <span class="greeting">亲爱的<span id="name">×××</span>管理员您好!</span>
+    <span class="greeting">亲爱的 <span id="name">${name}</span> 管理员您好!</span>
     <span class="date"><%@ include file="time.jsp"%></span>
 </div>
 
@@ -44,16 +45,16 @@
 
         <div id="addBox" class="insideBox">
             <form method="post" action="/sysManager/addPostman">
-                <p><span class="star">*</span> 姓&nbsp;&nbsp;&nbsp;&nbsp;名:<input name="name" type="text"/></p>
+                <p><span class="star">*</span> 姓&nbsp;名:<input name="name" type="text"/></p>
 
                 <p><span class="star">*</span> 手机号:<input name="phone" type="text"/></p>
 
                 <p><span class="star">*</span> 用户名:<input name="userName" type="text"/></p>
 
-                <p><span class="star">*</span> 密&nbsp;&nbsp;&nbsp;&nbsp;码:<input name="password" type="text"/></p>
+                <p><span class="star">*</span> 密&nbsp;码:<input name="password" type="text"/></p>
 
-                <p><span class="star">*</span> 性&nbsp;&nbsp;别:&nbsp;&nbsp;<input name="gender" type="radio" value="0"/>男
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input name="gender" type="radio" value="1"/>女
+                <p><span class="star">*</span> 性&nbsp;别:&nbsp;<input name="gender" type="radio" value="0"/>男
+                    &nbsp;&nbsp;<input name="gender" type="radio" value="1"/>女
                 </p>
 
                 <p class="center"><input class="right" type="submit" value="添加新邮递员"/></p>

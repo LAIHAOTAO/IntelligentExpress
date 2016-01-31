@@ -1,18 +1,18 @@
 package com.ericlai.express.controller;
 
 import com.ericlai.express.common.Constant;
-import com.ericlai.express.common.PublicMethod;
+import com.ericlai.express.dto.Person;
 import com.ericlai.express.model.LoginModel;
 import com.ericlai.express.service.LoginServiceImpl;
 import com.ericlai.express.util.JsonBuildUtil;
 import com.ericlai.express.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,50 +23,71 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
-@Configuration
-@ComponentScan("com.ericlai.express.service")
 public class Login {
 
-	@Autowired
+	private static Logger log = LogManager.getLogger(Login.class.getName());
+
+	@Resource
 	private LoginServiceImpl loginService;
 
 	//请求登录页面
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login() {
+		log.debug("login");
 		return "login";
 	}
 
 	//请求登录操作
 	@RequestMapping(value = "loginCheck", method = RequestMethod.POST)
 	public String check(LoginModel login, Model model, HttpSession session) {
+		log.debug("login check begin");
 		String userName = login.getUserName();
 		String password = login.getPassword();
 		password = MD5Util.getMD5String(password);
 		String role = login.getRole();
+		log.debug("userName: " + userName);
+		log.debug("password: " + password);
+		log.debug("role: " + role);
 		//检测用户名和密码是否为空
 		if (userName == null || role == null) {
 			model.addAttribute("result", Constant.U_P_R_NULL);
 		}else {
-			boolean	pwIsRight = PublicMethod.checkRight(userName, password);
+			boolean	pwIsRight = checkRight(userName, password);
 			if (pwIsRight) {
+				Person person = loginService.getPersonByUserName(userName);
 				//成功登录
 				//在session当中,设置user为当前的用户名,作为已经登录的标记
 				session.setAttribute("user", userName);
 				//将姓名放到model当中返回给前端页面
-				String name = loginService.getPersonByUserName(userName).getName();
+				String name = person.getName();
+				String gender = "";
+				if (person.getGender().equals(Constant.MALE)) {
+					gender = "先生";
+				}else if(person.getGender().equals(Constant.FEMALE)){
+					gender = "小姐";
+				}
 				model.addAttribute("name", name);
+				model.addAttribute("gender", gender);
 				if (Objects.equals(role, Constant.ADMIN)) {
-					return "redirect:sysManager";
+					return "sysManager";
 				} else if (Objects.equals(role, Constant.POSTMAN)) {
-					return "redirect:postman";
+					return "postman";
 				} else if (Objects.equals(role, Constant.USER)) {
-					return "redirect:user";
+					log.debug("reutrn user");
+					return "user";
 				}
 			}else {
 				model.addAttribute("result", Constant.PASSWORD_MISTAKE);
 			}
 		}
 		return "login";
+	}
+
+	public boolean checkRight(String name, String password) {
+		log.debug("Login checkRight");
+		String rightPw = loginService.getPwByUserName(name);
+		log.debug("rightPw is: " + rightPw);
+		return password != null && !password.equals("") && password.equals(rightPw);
 	}
 
 	//请求注销操作

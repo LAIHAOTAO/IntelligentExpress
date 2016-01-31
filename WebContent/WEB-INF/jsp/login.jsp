@@ -17,12 +17,12 @@
 </div>
 <div class="container">
 
-    <form action="/login/loginCheck" method="POST">
+    <form:form action="/login/loginCheck" method="POST">
         <input type="hidden" name="result" id="result" value="${result}"/>
 
         <div id="loginBox">
             <p>
-                用户名<input type="text" name="userName"/>
+                用户名<input type="text" name="userName" checked="checked" placeholder="由11位纯数字组成的手机号码"/>
             </p>
             <span id="userNameMsg"></span>
 
@@ -41,7 +41,7 @@
 
             <div id="mistake"></div>
         </div>
-    </form>
+    </form:form>
 
 </div>
 <div class="foot">

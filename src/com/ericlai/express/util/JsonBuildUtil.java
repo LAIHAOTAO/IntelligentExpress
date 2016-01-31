@@ -21,7 +21,9 @@ public class JsonBuildUtil {
 	 * @param subValueList 数组里（子层）的键和值List（可为null，表示只含普通字符的json格式字符串）
 	 * @return 完成json格式的字符串
 	 */
-	public static String packToObject(Map<String, String> mainkeyAndValue, ArrayList<String> subKeyList, ArrayList<Map<String, String>> subValueList) {
+	public static String packToObject(Map<String, String> mainkeyAndValue,
+									  ArrayList<String> subKeyList,
+									  ArrayList<Map<String, String>> subValueList) {
 		StringBuilder tmpJson = new StringBuilder();
 		tmpJson.append("{");
 		if (subKeyList != null && subValueList != null) {
@@ -82,29 +84,28 @@ public class JsonBuildUtil {
 	private static String packToArray(ArrayList<String> keyList,
 			ArrayList<Map<String, String>> valueList) {
 		StringBuilder tmpJson = new StringBuilder();
-		int i = 0;
 		for (String key : keyList) {
 			tmpJson.append("\"");
 			tmpJson.append(key);
 			tmpJson.append("\"");
 			tmpJson.append(":");
-			if (valueList.get(i) != null) {
-				tmpJson.append("[");
-				for (Map.Entry<String, String> entry : valueList.get(i).entrySet()) {
-					tmpJson.append("{");
+			tmpJson.append("[");
+			for (int j = 0; j <  valueList.size(); j++) {
+				tmpJson.append("{");
+				for (Map.Entry<String, String> entry : valueList.get(j).entrySet()) {
 					tmpJson.append(pack(entry));
-					tmpJson.append("}");
 					tmpJson.append(",");
 				}
+				tmpJson.deleteCharAt(tmpJson.lastIndexOf(","));
+				tmpJson.append("}");
+				tmpJson.append(",");
 			}
-			i++;
 			tmpJson.deleteCharAt(tmpJson.lastIndexOf(","));
 			tmpJson.append("]");
 			tmpJson.append(",");
 		}
 		tmpJson.deleteCharAt(tmpJson.lastIndexOf(","));
-		String json = tmpJson.toString();
-		return json;
+		return tmpJson.toString();
 	}
 	
 }

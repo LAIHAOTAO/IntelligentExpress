@@ -12,4 +12,8 @@ public class Constant {
     public static final String U_P_R_NULL = "4";
     public static final String PASSWORD_MISTAKE = "5";
 
+    public static final String MALE = "0";
+    public static final String FEMALE = "1";
+
+
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ericlai.express.dao.QueryMapper" >
+
+    <resultMap id="baseResultMap" type="com.ericlai.express.dto.QueryDto">
+        <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
+        <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
+        <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+        <result column="RECVER_NAME" property="recverName" jdbcType="VARCHAR" />
+        <result column="RECVER_PHONE" property="recverPhone" jdbcType="VARCHAR" />
+        <result column="POSTER_NAME" property="posterName" jdbcType="VARCHAR" />
+        <result column="POSTER_PHONE" property="posterPhone" jdbcType="VARCHAR" />
+        <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getPackageInfoByPhone" resultMap="baseResultMap">
+        SELECT
+          pac.PAC_ID,PAC_STATUS,
+          sender.NAME AS SENDER_NAME, sender.PHONE AS SENDER_PHONE,
+          recver.NAME AS RECVER_NAME,recver.PHONE AS RECVER_PHONE,
+          poster.NAME AS POSTER_NAME,poster.PHONE AS POSTER_PHONE
+      FROM package AS pac
+          LEFT JOIN person AS sender ON pac.SEND_ID = sender.PERSON_ID
+          LEFT JOIN person AS recver ON pac.REC_ID = recver.PERSON_ID
+          LEFT JOIN person AS poster ON pac.POS_ID = poster.PERSON_ID
+      <if test="senderPhone != null">
+          WHERE sender.PHONE = #{senderPhone}
+      </if>
+      <if test="recverPhone != null">
+          WHERE recver.PHONE = #{recverPhone}
+      </if>
+    </select>
+
+</mapper>
