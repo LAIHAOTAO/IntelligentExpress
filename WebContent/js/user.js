@@ -5,9 +5,15 @@
 $(document).ready(function(){
     var packageStatus = ["等待寄出","运送途中","等待收件","已经收件"];
     var checkMethod = "packageId";
+    $.get("/user",function(data){
+        var key;
+        $('#packageNo').html("");
+        for (key in data) {
+            $('#packageNo').append("<option value="+data[key]+">"+data[key]+"</option>");
+        }
+    });
     $('#queryResult,#sendPhone,#receivePhone').hide();
-    $('#packageQuery').css('color', "red")
-    .click(function() {
+    $('#packageQuery').css('color', "red").click(function() {
         checkMethod = "packageId";
         $('#sendPhone,#receivePhone').hide();
         $('#queryResult').hide();
@@ -33,12 +39,12 @@ $(document).ready(function(){
         $('#packageQuery,#receiveQuery').css('color', "lightseagreen");
         $('#sendPhone').show();
         $(this).css('color', "red");
-
     });
     $('#queryButton').click(function() {
+        $('#record').html("");
         if (checkMethod == "packageId") {
-            var packageId = $('[name=packageId]').attr("value");
-            var data = {packageId: packageId,checkMethod: checkMethod};
+            var packageNo = $('#packageNo').val();
+            var data = {packageNo: packageNo,checkMethod: checkMethod};
         } else if (checkMethod == "sendPhone") {
             var sendPhone = $('[name=sendPhone]').attr("value");
             var data = {sendPhone: sendPhone,receivePhone: null,checkMethod: checkMethod};

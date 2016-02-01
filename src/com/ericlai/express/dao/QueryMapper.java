@@ -14,5 +14,6 @@ import java.util.List;
 public interface QueryMapper {
     List<QueryDto> getPackageInfoByPhone(
             @Param("senderPhone")String senderPhone, @Param("recverPhone")String recverPhone);
-//    List<String> getPackageIdByPhone(@Param("phone") String phone);
+    List<QueryDto> getPackageIdByPhone(@Param("phone") String phone);
+    List<QueryDto> getPackageInfoByPacId(@Param("pacId") String pacId);
 }

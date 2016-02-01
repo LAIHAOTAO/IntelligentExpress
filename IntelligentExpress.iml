@@ -17,11 +17,14 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/spring-mybatis.xml</file>
+          <file>file://$MODULE_DIR$/target/IntelligentExpress-1.0-SNAPSHOT/WEB-INF/user-servlet.xml</file>
+          <file>file://$MODULE_DIR$/target/IntelligentExpress-1.0-SNAPSHOT/WEB-INF/login-servlet.xml</file>
+          <file>file://$MODULE_DIR$/target/IntelligentExpress-1.0-SNAPSHOT/WEB-INF/spring-mybatis.xml</file>
+          <file>file://$MODULE_DIR$/target/IntelligentExpress-1.0-SNAPSHOT/WEB-INF/sysManager-servlet.xml</file>
           <file>file://$MODULE_DIR$/WebContent/WEB-INF/user-servlet.xml</file>
           <file>file://$MODULE_DIR$/WebContent/WEB-INF/login-servlet.xml</file>
+          <file>file://$MODULE_DIR$/WebContent/WEB-INF/spring-mybatis.xml</file>
           <file>file://$MODULE_DIR$/WebContent/WEB-INF/sysManager-servlet.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/loginConfig.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -36,6 +39,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:7.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />

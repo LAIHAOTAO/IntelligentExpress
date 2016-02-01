@@ -31,6 +31,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<QueryDto> getPackageIdByPhone(String phone) {
+        return this.queryMapper.getPackageIdByPhone(phone);
+    }
+
+    @Override
+    public List<QueryDto> getPackageInfoByPacId(String pacId) {
+        return this.queryMapper.getPackageInfoByPacId(pacId);
+    }
+
+    @Override
     public String getAjaxResponse(List<QueryDto> list) {
         log.debug("getAjaxResponse begin");
         ArrayList<String> subKey = new ArrayList<>();
@@ -39,9 +49,7 @@ public class UserServiceImpl implements UserService {
         mainMap.put("result", "success");
         subKey.add("queryDto");
         //遍历数据库查出来的所有记录
-        log.debug("list size: " + list.size());
         for (QueryDto aList : list) {
-            log.debug("pacId: " + aList.getPacId());
             Map<String, String> utilMap = getQueryBeanMap(aList);
             subValue.add(utilMap);
         }
@@ -68,4 +76,5 @@ public class UserServiceImpl implements UserService {
         map.put("pacStatus", pacStatus);
         return map;
     }
+
 }

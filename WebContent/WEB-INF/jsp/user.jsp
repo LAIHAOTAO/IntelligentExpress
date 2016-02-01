@@ -41,9 +41,9 @@
     <div class="content">
         <div class="insideBox" id="queryBox">
 
-            <div id="packageId">快 件 编 号 :
-                <select name="packageNo" id="packageNo">
-                    <%--<c:forEach var="pacId" items="${pacIdList}">${pacId}</c:forEach>--%>
+            <div id="packageId">快件编号:
+                <select name="packageNo" id="packageNo" style="width:150px">
+
                 </select></div>
 
             <div id="receivePhone">收件人手机号:

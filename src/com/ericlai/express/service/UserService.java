@@ -1,6 +1,7 @@
 package com.ericlai.express.service;
 
 import com.ericlai.express.dto.QueryDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,5 +11,6 @@ import java.util.List;
 public interface UserService {
     List<QueryDto> getPackageInfoByPhone(String senderPhone, String recverPhone);
     String getAjaxResponse(List<QueryDto> list);
-//    List<String> getPackageIdByPhone(String phone);
+    List<QueryDto> getPackageIdByPhone(String phone);
+    List<QueryDto> getPackageInfoByPacId(String pacId);
 }

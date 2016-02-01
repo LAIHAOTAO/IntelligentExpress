@@ -13,6 +13,28 @@
         <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="baseResultMap1" type="com.ericlai.express.dto.QueryDto">
+        <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
+        <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
+        <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+        <result column="RECVER_NAME" property="recverName" jdbcType="VARCHAR" />
+        <result column="RECVER_PHONE" property="recverPhone" jdbcType="VARCHAR" />
+        <result column="POSTER_NAME" property="posterName" jdbcType="VARCHAR" />
+        <result column="POSTER_PHONE" property="posterPhone" jdbcType="VARCHAR" />
+        <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="baseResultMap2" type="com.ericlai.express.dto.QueryDto">
+        <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
+        <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
+        <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+        <result column="RECVER_NAME" property="recverName" jdbcType="VARCHAR" />
+        <result column="RECVER_PHONE" property="recverPhone" jdbcType="VARCHAR" />
+        <result column="POSTER_NAME" property="posterName" jdbcType="VARCHAR" />
+        <result column="POSTER_PHONE" property="posterPhone" jdbcType="VARCHAR" />
+        <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
+    </resultMap>
+
     <select id="getPackageInfoByPhone" resultMap="baseResultMap">
         SELECT
           pac.PAC_ID,PAC_STATUS,
@@ -31,4 +53,28 @@
       </if>
     </select>
 
+    <select id="getPackageIdByPhone" resultMap="baseResultMap1">
+        SELECT
+          pac.PAC_ID
+        FROM package AS pac
+            LEFT JOIN person AS sender ON pac.SEND_ID = sender.PERSON_ID
+            LEFT JOIN person AS recver ON pac.REC_ID = recver.PERSON_ID
+        WHERE
+            sender.PHONE = #{phone}
+            OR recver.PHONE = #{phone}
+    </select>
+
+    <select id="getPackageInfoByPacId" resultMap="baseResultMap2">
+        SELECT
+        pac.PAC_ID,PAC_STATUS,
+        sender.NAME AS SENDER_NAME, sender.PHONE AS SENDER_PHONE,
+        recver.NAME AS RECVER_NAME,recver.PHONE AS RECVER_PHONE,
+        poster.NAME AS POSTER_NAME,poster.PHONE AS POSTER_PHONE
+        FROM package AS pac
+        LEFT JOIN person AS sender ON pac.SEND_ID = sender.PERSON_ID
+        LEFT JOIN person AS recver ON pac.REC_ID = recver.PERSON_ID
+        LEFT JOIN person AS poster ON pac.POS_ID = poster.PERSON_ID
+        WHERE
+          pac.PAC_ID = #{pacId}
+    </select>
 </mapper>
