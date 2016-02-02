@@ -4,7 +4,6 @@
 
 $(document).ready(function(){
     var packageStatus = ["等待寄出","运送途中","等待收件","已经收件"];
-    var barList = ["packageQuery", "receiveQuery", "sendQuery", "modifyInfo", "modifyLogPw", "addressManage"];
     var checkMethod = "packageId";
 
     // 获取快件ID，填入选择框当中
@@ -15,46 +14,76 @@ $(document).ready(function(){
             $('#packageNo').append("<option value="+data[key]+">"+data[key]+"</option>");
         }
     });
-    $('#queryResult,#sendPhone,#receivePhone').hide();
-    $('#modifyBox').hide();
+    //隐藏 查询表格 寄件手机查询 收件手机查询 修改个人资料 修改登录密码
+    $('#queryResult,#sendPhone,#receivePhone,#modifyBox, #modifyPw').hide();
 
     // 按下 按快件编号查询按键
     $('#packageQuery').css('color', "red").click(function() {
         checkMethod = "packageId";
-        $('#sendPhone,#receivePhone').hide();
-        $('#queryResult').hide();
-        $('#modifyBox').hide();
+        // 隐藏无关元素
+        $('.query, #modifyBox, #modifyPw').hide();
+        // 显示本身
         $('#queryBox').show();
-        $('#record').html("");
-        $('#receiveQuery,#sendQuery,#modifyInfo').css('color', "lightseagreen");
         $('#packageId').show();
-        $(this).css('color', "red");
+        // 清空表格 bar颜色重置
+        reSetColor(this);
     });
 
     //按下 按收件人查询按键
     $('#receiveQuery').click(function() {
         checkMethod = "receivePhone";
-        $('#packageId,#sendPhone').hide();
-        $('#queryResult').hide();
-        $('#modifyBox').hide();
+        // 隐藏无关元素
+        $('.query, #modifyBox, #modifyPw').hide();
+        // 显示本身
         $('#queryBox').show();
-        $('#record').html("");
-        $('#packageQuery,#sendQuery,#modifyInfo').css('color', "lightseagreen");
         $('#receivePhone').show();
-        $(this).css('color', "red");
+        // 清空表格 bar颜色重置
+        reSetColor(this);
     });
 
     //按下 按寄件人查询按钮
     $('#sendQuery').click(function() {
         checkMethod = "sendPhone";
-        $('#packageId,#receivePhone').hide();
-        $('#queryResult').hide();
-        $('#modifyBox').hide();
+        // 隐藏无关元素
+        $('.query, #modifyBox, #modifyPw').hide();
+        // 显示本身
         $('#queryBox').show();
-        $('#record').html("");
-        $('#packageQuery,#receiveQuery,#modifyInfo').css('color', "lightseagreen");
         $('#sendPhone').show();
-        $(this).css('color', "red");
+        // 清空表格 bar颜色重置
+        reSetColor(this);
+    });
+
+    //按下 修改个人信息按键
+    $('#modifyInfo').click(function(){
+        $('#queryBox').hide();
+        $('#modifyBox').show();
+        reSetColor(this);
+        $.get("/user/modify",function(data){
+            $('#personId').attr("value", data.personId);
+            $('#personNm').attr("value", data.name);
+            $('#phone').attr("value", data.phone);
+            $('#logNm').attr("value", data.logNm);
+        });
+    });
+
+    //按下 修改登录密码按键
+    $('#modifyLogPw').click(function(){
+        $('#queryBox, #modifyBox').hide();
+        $('#modifyPw').show();
+        reSetColor(this);
+
+    });
+
+    //按下 确认修改信息按键
+    $('#sureModify').click(function(){
+
+
+    });
+
+    //按下 确认修改密码按键
+    $('#changePw').click(function(){
+
+
     });
 
     //按下 开始查询按键
@@ -74,23 +103,15 @@ $(document).ready(function(){
             if (data.result == "success") {
                 var len = data.queryDto.length;
                 for (var i = 0; i < len; i++) {
-                    var pacId = data.queryDto[i].pacId;
-                    var senderName = data.queryDto[i].senderName;
-                    var sendPhone = data.queryDto[i].sendPhone;
-                    var recverName = data.queryDto[i].recverName;
-                    var recverPhone = data.queryDto[i].recverPhone;
-                    var posterName = data.queryDto[i].posterName;
-                    var posterPhone = data.queryDto[i].posterPhone;
-                    var pacStatus = data.queryDto[i].pacStatus;
                     $('#record').append("<tr>" +
-                        "<td>"+pacId+"</td>" +
-                        "<td>"+senderName+"</td>" +
-                        "<td>"+sendPhone+"</td>" +
-                        "<td>"+recverName+"</td>" +
-                        "<td>"+recverPhone+"</td>" +
-                        "<td>"+posterName+"</td>" +
-                        "<td>"+posterPhone+"</td>" +
-                        "<td>"+packageStatus[pacStatus]+"</td>" +
+                        "<td>"+data.queryDto[i].pacId+"</td>" +
+                        "<td>"+data.queryDto[i].senderName+"</td>" +
+                        "<td>"+data.queryDto[i].sendPhone+"</td>" +
+                        "<td>"+data.queryDto[i].recverName+"</td>" +
+                        "<td>"+data.queryDto[i].recverPhone+"</td>" +
+                        "<td>"+data.queryDto[i].posterName+"</td>" +
+                        "<td>"+data.queryDto[i].posterPhone+"</td>" +
+                        "<td>"+packageStatus[data.queryDto[i].pacStatus]+"</td>" +
                         "</tr>");
                 }
             }else {
@@ -99,31 +120,9 @@ $(document).ready(function(){
             $('#queryResult').show();
         });
     });
-
-    //按下 修改个人信息按键
-    $('#modifyInfo').click(function(){
-        $('#queryBox').hide();
-        $('#modifyBox').show();
-        $('#packageQuery,#sendQuery,#receiveQuery').css('color', "lightseagreen");
-        $(this).css('color', "red");
-        $.get("/user/modify",function(data){
-            var personId = data.personId;
-            var personNm = data.name;
-            var personPh = data.phone;
-            var personLogNm = data.logNm;
-            var personLogPw = data.logPw;
-            $('#personId').attr("value", personId);
-            $('#personNm').attr("value", personNm);
-            $('#phone').attr("value", personPh);
-            $('#logNm').attr("value", personLogNm);
-        });
-    });
-
-    function highLightBar(){
-        for (var x in barList) {
-            var id = "#" + x;
-            $(id).css('color', "lightseagreen");
-        }
+    function reSetColor(selector) {
+        $('#record').html("");
+        $('.show_finger').css('color', "lightseagreen");
+        $(selector).css('color', "red");
     }
-
 });

@@ -39,14 +39,16 @@
     </div>
     <div class="content">
         <div class="insideBox" id="queryBox">
-            <div id="packageId">快件编号:
+
+            <div id="packageId" class="query">快件编号:
                 <select name="packageNo" id="packageNo" style="width:150px">
                 </select></div>
-            <div id="receivePhone">收件人手机号:
+            <div id="receivePhone" class="query">收件人手机号:
                 <input type="text" name="receivePhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
-            <div id="sendPhone">寄件人手机号:
+            <div id="sendPhone" class="query">寄件人手机号:
                 <input type="text" name="sendPhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
             <div class="center"><br/><input id="queryButton" type="submit" value="开始查询"/></div>
+
             <div class="resultTableBox" id="queryResult">
                 <p id="resultMsg" class="center"></p>
                 <table class="table-normal">
@@ -68,11 +70,17 @@
             </div>
         </div>
         <div id="modifyBox" class="insideBox">
-            <P>身份ID：<input type="text" id="personId" size="14" class="right" /></P>
+            <P>身份ID：<input type="text" id="personId" size="14" class="right" readonly="readonly" /></P>
             <p>姓名： <input type="text" id="personNm" size="14" class="right" /></p>
             <p>手机号码：<input type="text" id="phone" size="14" class="right" /></p>
             <p>登录名：<input type="text" id="logNm" size="14" class="right" /></p>
-            <p class="center"><input type="submit" value="修改信息" /></p>
+            <p class="center"><input type="submit" id="sureModify" value="修改信息" /></p>
+        </div>
+        <div id="modifyPw" class="insideBox">
+            <p>旧密码：<input type="password" id="oldPw" class="right" size="14" /></p>
+            <p>新密码：<input type="password" id="newPw" class="right" size="14" /></p>
+            <p>再次新密码：<input type="password" id="againNewPw" class="right" size="14" /></p>
+            <p class="center"><input type="submit" id="changePw" value="修改密码" /></p>
         </div>
     </div>
 </div>
