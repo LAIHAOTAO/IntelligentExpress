@@ -35,7 +35,7 @@
         </javaModelGenerator>
 
         <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
-        <sqlMapGenerator targetPackage="resources.resources.mapper"
+        <sqlMapGenerator targetPackage="resources.mapper"
                          targetProject="src">
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
@@ -46,7 +46,11 @@
             <property name="enableSubPackages" value="ture" />
         </javaClientGenerator>
 
-        <table tableName="%" />
+        <!--在这里指定需要操作的表名-->
+        <table tableName="%"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false" />
 
     </context>
 </generatorConfiguration>

@@ -2,11 +2,11 @@ package com.ericlai.express.service;
 
 import com.ericlai.express.dao.PersonMapper;
 import com.ericlai.express.dto.Person;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/1/25.
@@ -27,11 +27,5 @@ public class LoginServiceImpl implements LoginService {
     public Person getPersonByUserName(String name) {
         return this.personMapper.getPersonByUserName(name);
     }
-
-    @Override
-    public String getString() {
-        return "test";
-    }
-
 
 }

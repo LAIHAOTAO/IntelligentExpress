@@ -29,31 +29,24 @@
 </div>
 
 <div class="container">
-
     <div class="bar">
         <p><a class="show_finger" id="packageQuery" href="JavaScript:void(0);">按快件号查询</a></p>
-
         <p><a class="show_finger" id="receiveQuery" href="JavaScript:void(0);">按收件人查询</a></p>
-
         <p><a class="show_finger" id="sendQuery" href="JavaScript:void(0);">按寄件人查询</a></p>
-
+        <p><a class="show_finger" id="modifyInfo" href="JavaScript:void(0);">修改个人信息</a></p>
+        <p><a class="show_finger" id="modifyLogPw" href="JavaScript:void(0);">修改登录密码</a></p>
+        <p><a class="show_finger" id="addressManage" href="JavaScript:void(0);">个人地址管理</a></p>
     </div>
     <div class="content">
         <div class="insideBox" id="queryBox">
-
             <div id="packageId">快件编号:
                 <select name="packageNo" id="packageNo" style="width:150px">
-
                 </select></div>
-
             <div id="receivePhone">收件人手机号:
                 <input type="text" name="receivePhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
-
             <div id="sendPhone">寄件人手机号:
                 <input type="text" name="sendPhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
-
             <div class="center"><br/><input id="queryButton" type="submit" value="开始查询"/></div>
-
             <div class="resultTableBox" id="queryResult">
                 <p id="resultMsg" class="center"></p>
                 <table class="table-normal">
@@ -73,6 +66,13 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div id="modifyBox" class="insideBox">
+            <P>身份ID：<input type="text" id="personId" size="14" class="right" /></P>
+            <p>姓名： <input type="text" id="personNm" size="14" class="right" /></p>
+            <p>手机号码：<input type="text" id="phone" size="14" class="right" /></p>
+            <p>登录名：<input type="text" id="logNm" size="14" class="right" /></p>
+            <p class="center"><input type="submit" value="修改信息" /></p>
         </div>
     </div>
 </div>

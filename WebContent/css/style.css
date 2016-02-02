@@ -6,7 +6,7 @@
 .bar {width: 120px; height: 400px; float: left; border-right-style: solid; margin-left: auto; text-align: center; font-weight: normal; font-size: larger}
 .bar p {font-size: smaller }
 .content {width: 700px; height: 400px}
-.content .insideBox{position: absolute;top: 0; bottom: 0; left: 80px; right: 0; margin: auto; height: 300px; width: 250px}
+.content .insideBox{position: absolute;top: 0; bottom: 0; left: 80px; right: 0; margin: auto; height: 300px; width: 300px}
 .info {margin: 0 auto 0; width: 700px}
 .greeting{text-align: left}
 .date{float: right}
@@ -22,3 +22,4 @@
 .table-normal td {text-align: center}
 .foot {text-align: center; font-weight: normal; font-size: 12px; margin-top: 20px}
 #mistake {color: red}
+.right {position: absolute; right: 80px}

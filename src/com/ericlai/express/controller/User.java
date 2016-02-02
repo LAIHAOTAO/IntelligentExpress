@@ -1,29 +1,28 @@
 package com.ericlai.express.controller;
 
+import com.ericlai.express.common.PublicMethod;
+import com.ericlai.express.dto.Person;
 import com.ericlai.express.dto.QueryDto;
+import com.ericlai.express.service.LoginServiceImpl;
 import com.ericlai.express.service.UserServiceImpl;
+import com.ericlai.express.util.GetBeanMap;
 import com.ericlai.express.util.JsonBuildUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * 用户操作页面模块控制器代码
  * Created by ERIC_LAI on 15/11/29.
  */
 
@@ -35,11 +34,13 @@ public class User {
     @Resource
     private UserServiceImpl userService;
 
+    @Resource
+    private LoginServiceImpl loginService;
+
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public void getUser(HttpSession session, HttpServletResponse response) {
-        log.debug("user1");
+        log.debug("user");
         List<QueryDto> pacIdList = userService.getPackageIdByPhone(session.getAttribute("user").toString());
-        log.debug("user2");
         Map<String, String> mainMap = new HashMap<>();
         int i = 0;
         for (QueryDto aList : pacIdList) {
@@ -48,17 +49,7 @@ public class User {
         }
         String json = JsonBuildUtil.packToObject(mainMap, null, null);
         log.debug(json);
-        PrintWriter out = null;
-        //设置格式
-        response.setContentType("application/json");
-        try {
-            //获取输出的格式
-            out = response.getWriter();
-            //输出json格式的字符串到前端
-            out.write(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PublicMethod.SendJsonToFront(response, json);
     }
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
@@ -66,14 +57,14 @@ public class User {
         log.debug("user query");
         String json = "";
         String checkMethod = request.getParameter("checkMethod");
-        log.debug(checkMethod);
+        log.debug("checkMethod: " + checkMethod);
         List<QueryDto> list;
-        if (checkMethod.equals("packageId")){
+        if (checkMethod.equals("packageId")) {
             log.debug("query by pacId");
             String packageNo = request.getParameter("packageNo");
             log.debug(packageNo);
             list = userService.getPackageInfoByPacId(packageNo);
-        }else {
+        } else {
             //按照寄件人或者收件人手机号码查询
             log.debug("query by phone");
             String sendPhone = request.getParameter("sendPhone");
@@ -81,7 +72,7 @@ public class User {
             if (checkMethod.equals("sendPhone")) {
                 log.debug("send phone: " + sendPhone);
                 list = userService.getPackageInfoByPhone(sendPhone, null);
-            }else {
+            } else {
                 log.debug("receive phone: " + receviePhone);
                 list = userService.getPackageInfoByPhone(null, receviePhone);
             }
@@ -89,18 +80,21 @@ public class User {
         }
         json = userService.getAjaxResponse(list);
         log.debug("query result in json type: " + json);
-        PrintWriter out = null;
-        //设置格式
-        response.setContentType("application/json");
-        try {
-            //获取输出的格式
-            out = response.getWriter();
-            //输出json格式的字符串到前端
-            out.write(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PublicMethod.SendJsonToFront(response, json);
     }
 
-
+    @RequestMapping(value = "modify", method = RequestMethod.GET)
+    public void getPersonInfo(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+        log.debug("modify get");
+        Map<String, String> mainMap;
+        String userName = session.getAttribute("user").toString();
+        Person user = loginService.getPersonByUserName(userName);
+        log.debug("query finish");
+        mainMap = GetBeanMap.getBeanFieldAndValue(user);
+        String json = JsonBuildUtil.packToObject(mainMap, null, null);
+        log.debug(json);
+        PublicMethod.SendJsonToFront(response, json);
+    }
 }
+
+

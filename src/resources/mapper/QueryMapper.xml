@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ericlai.express.dao.QueryMapper" >
 
-    <resultMap id="baseResultMap" type="com.ericlai.express.dto.QueryDto">
+    <resultMap id="BaseResultMap" type="com.ericlai.express.dto.QueryDto">
         <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
         <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
         <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
         <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="baseResultMap1" type="com.ericlai.express.dto.QueryDto">
+    <resultMap id="BaseResultMap1" type="com.ericlai.express.dto.QueryDto">
         <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
         <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
         <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
         <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="baseResultMap2" type="com.ericlai.express.dto.QueryDto">
+    <resultMap id="BaseResultMap2" type="com.ericlai.express.dto.QueryDto">
         <id column="PAC_ID" property="pacId" jdbcType="VARCHAR" />
         <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR" />
         <result column="SENDER_PHONE" property="sendPhone" jdbcType="VARCHAR" />
@@ -35,7 +35,7 @@
         <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="getPackageInfoByPhone" resultMap="baseResultMap">
+    <select id="getPackageInfoByPhone" resultMap="BaseResultMap">
         SELECT
           pac.PAC_ID,PAC_STATUS,
           sender.NAME AS SENDER_NAME, sender.PHONE AS SENDER_PHONE,
@@ -51,9 +51,13 @@
       <if test="recverPhone != null">
           WHERE recver.PHONE = #{recverPhone}
       </if>
+            AND pac.DELETE_FLAG != 1
+            AND sender.DELETE_FLAG != 1
+            AND recver.DELETE_FLAG != 1
+            AND poster.DELETE_FLAG != 1
     </select>
 
-    <select id="getPackageIdByPhone" resultMap="baseResultMap1">
+    <select id="getPackageIdByPhone" resultMap="BaseResultMap1">
         SELECT
           pac.PAC_ID
         FROM package AS pac
@@ -62,9 +66,12 @@
         WHERE
             sender.PHONE = #{phone}
             OR recver.PHONE = #{phone}
+            AND pac.DELETE_FLAG != 1
+            AND sender.DELETE_FLAG != 1
+            AND recver.DELETE_FLAG != 1
     </select>
 
-    <select id="getPackageInfoByPacId" resultMap="baseResultMap2">
+    <select id="getPackageInfoByPacId" resultMap="BaseResultMap2">
         SELECT
         pac.PAC_ID,PAC_STATUS,
         sender.NAME AS SENDER_NAME, sender.PHONE AS SENDER_PHONE,
@@ -76,5 +83,9 @@
         LEFT JOIN person AS poster ON pac.POS_ID = poster.PERSON_ID
         WHERE
           pac.PAC_ID = #{pacId}
+          AND pac.DELETE_FLAG != 1
+          AND sender.DELETE_FLAG != 1
+          AND recver.DELETE_FLAG != 1
+          AND poster.DELETE_FLAG != 1
     </select>
 </mapper>

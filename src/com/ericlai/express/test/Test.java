@@ -1,11 +1,10 @@
 package com.ericlai.express.test;
 
-import com.ericlai.express.util.JsonBuildUtil;
+import com.ericlai.express.dto.Person;
+import com.ericlai.express.util.GetBeanMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,21 +16,25 @@ public class Test {
 
     @org.junit.Test
     public void testLog() {
-        log.debug("test log");
-        ArrayList<String> subKey = new ArrayList<>();
-        ArrayList<Map<String,String>> subValue = new ArrayList<>();
-        Map<String, String> mainMap = new HashMap<>();
-        Map<String, String> utilMap1 = new HashMap<>();
-        Map<String, String> utilMap2 = new HashMap<>();
-        utilMap1.put("name", "eric");
-        utilMap1.put("age", "18");
-        utilMap2.put("name", "bill");
-        utilMap2.put("age", "16");
-        mainMap.put("result", "success");
-        subKey.add("queryDto");
-        subValue.add(utilMap1);
-        subValue.add(utilMap2);
-        String json = JsonBuildUtil.packToObject(mainMap, subKey, subValue);
-        log.debug(json);
+        Person person = new Person();
+        person.setName("eric");
+        person.setGender("male");
+        person.setPhone("123456789");
+        person.setIdCrl("1");
+        person.setLogNm("123456");
+        person.setLogPw("123456");
+        person.setPersonId("1234567");
+        Map<String, String>map = GetBeanMap.getBeanFieldAndValue(person);
+        log.debug(map.get("logNm"));
+
+    }
+
+
+    public void tes1t() {
+        String str = "com.ericlai.dto.Person";
+        int begin = str.lastIndexOf(".");
+        String subStr = str.substring(begin+1, str.length());
+        subStr = subStr.toLowerCase();
+        log.debug(subStr);
     }
 }
