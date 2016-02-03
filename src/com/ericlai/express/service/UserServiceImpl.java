@@ -1,6 +1,8 @@
 package com.ericlai.express.service;
 
+import com.ericlai.express.dao.PersonMapper;
 import com.ericlai.express.dao.QueryMapper;
+import com.ericlai.express.dto.Person;
 import com.ericlai.express.dto.QueryDto;
 import com.ericlai.express.util.GetBeanMap;
 import com.ericlai.express.util.JsonBuildUtil;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private QueryMapper queryMapper;
 
+    @Resource
+    private PersonMapper personMapper;
+
     private Logger log = LogManager.getLogger(UserServiceImpl.class.getName());
 
     @Override
@@ -39,6 +44,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<QueryDto> getPackageInfoByPacId(String pacId) {
         return this.queryMapper.getPackageInfoByPacId(pacId);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Person person) {
+        return this.personMapper.updateByPrimaryKeySelective(person);
+    }
+
+    @Override
+    public void updataLogPw(String oldPw, String newPw) {
+        personMapper.updataLogPw(oldPw, newPw);
     }
 
     @Override

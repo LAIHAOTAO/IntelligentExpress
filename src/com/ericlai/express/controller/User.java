@@ -7,6 +7,7 @@ import com.ericlai.express.service.LoginServiceImpl;
 import com.ericlai.express.service.UserServiceImpl;
 import com.ericlai.express.util.GetBeanMap;
 import com.ericlai.express.util.JsonBuildUtil;
+import com.ericlai.express.util.MD5Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -95,6 +96,54 @@ public class User {
         log.debug(json);
         PublicMethod.SendJsonToFront(response, json);
     }
+
+    @RequestMapping(value = "modifyInfo", method = RequestMethod.POST)
+    public void updatePersonInfo(HttpServletRequest request, HttpServletResponse response) {
+        Person person = new Person();
+        String personId = request.getParameter("personId");
+        String personNm = request.getParameter("personNm");
+        String phone = request.getParameter("phone");
+        String logNm = request.getParameter("logNm");
+        person.setPersonId(personId);
+        person.setName(personNm);
+        person.setPhone(phone);
+        person.setLogNm(logNm);
+        Map<String, String> mainMap = new HashMap<>();
+        try {
+            userService.updateByPrimaryKeySelective(person);
+            mainMap.put("result", "success");
+        }catch (Exception e){
+            e.printStackTrace();
+            mainMap.put("result", "fail");
+        }finally {
+            String json = JsonBuildUtil.packToObject(mainMap, null, null);
+            PublicMethod.SendJsonToFront(response, json);
+        }
+    }
+
+    @RequestMapping(value = "modifyPw", method = RequestMethod.POST)
+    public void modifyPw(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String oldPw = MD5Util.getMD5String(request.getParameter("oldPw"));
+        String oldRight = MD5Util.getMD5String(loginService.getPwByUserName(session.getAttribute("user").toString()));
+        Map<String, String> mainMap = new HashMap<>();
+        if ( !oldPw.equals(oldRight)) {
+            log.debug("oldPw is incorrect");
+            mainMap.put("result", "oldFalse");
+        }else {
+            log.debug("oldPw is correct, begin to modify password");
+            String newPw = MD5Util.getMD5String(request.getParameter("newPw"));
+            log.debug("old password: " + oldPw);
+            log.debug("new password: " + newPw);
+            try {
+                userService.updataLogPw(oldPw, newPw);
+                log.debug("successful update");
+                mainMap.put("result", "sccess");
+            }catch (Exception e) {
+                e.printStackTrace();
+                mainMap.put("result", "fail");
+            }
+        }
+        String json = JsonBuildUtil.packToObject(mainMap, null, null);
+        PublicMethod.SendJsonToFront(response, json);
+    }
 }
-
-

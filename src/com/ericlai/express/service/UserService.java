@@ -1,5 +1,6 @@
 package com.ericlai.express.service;
 
+import com.ericlai.express.dto.Person;
 import com.ericlai.express.dto.QueryDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +14,6 @@ public interface UserService {
     String getAjaxResponse(List<QueryDto> list);
     List<QueryDto> getPackageIdByPhone(String phone);
     List<QueryDto> getPackageInfoByPacId(String pacId);
+    int updateByPrimaryKeySelective(Person person);
+    void updataLogPw(String oldPw, String newPw);
 }

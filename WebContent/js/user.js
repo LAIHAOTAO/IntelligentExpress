@@ -76,14 +76,55 @@ $(document).ready(function(){
 
     //按下 确认修改信息按键
     $('#sureModify').click(function(){
-
-
+        //询问框
+        layer.confirm('您确定要修改个人信息吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var personId = $('#personId').attr();
+            var name = $('#personNm').attr("value");
+            var phone = $('#phone').attr("value");
+            var logNm = $('#logNm').attr("value");
+            var data = {persoId:personId, name:name, phone:phone, logNm:logNm};
+            $.post("user/modifyInfo", data, function(data){
+                if (data.result == "success") {
+                    layer.alert('个人信息修改成功');
+                } else {
+                    layer.alert('信息修改失败, 请重新尝试');
+                }
+            });
+        }, function(){});
     });
 
     //按下 确认修改密码按键
-    $('#changePw').click(function(){
-
-
+    $('#changePw').click(function() {
+        var oldPw = $("#oldPw").attr("value");
+        var password = $("#newPw").attr("value");
+        var againPw = $("#againNewPw").attr("value");
+        if (oldPw != null || password != null || againPw != null) {
+            //询问框
+            layer.confirm('您确定要修改登录密码吗？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                if (password == againPw) {
+                    var data = {oldPw:oldPw, password: password};
+                    $.post("user/modifyPw", data, function (data) {
+                        if (data.result == "success") {
+                            layer.alert('登录密码修改成功');
+                        } else if (data.result == "oldFalse") {
+                            layer.alert('旧密码输入错误, 请核对后重新输入');
+                        } else {
+                            layer.alert('密码修改失败, 请重新尝试');
+                        }
+                    });
+                } else {
+                    layer.alert("两次输入的新密码不一致, 请核对后重新输入");
+                    $('#newPw, #againNewPw').attr("value", "");
+                }
+            }, function () {
+            });
+        } else {
+            layer.alert("以上三个输入框不可以为空, 请核对后重新输入");
+        }
     });
 
     //按下 开始查询按键

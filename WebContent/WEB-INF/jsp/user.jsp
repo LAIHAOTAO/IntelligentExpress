@@ -12,6 +12,7 @@
     <title>user</title>
     <link href="../../css/style.css" type="text/css" rel="stylesheet">
     <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../../layer/layer.js"/>
     <script src="../../js/user.js"></script>
 </head>
 <body>
