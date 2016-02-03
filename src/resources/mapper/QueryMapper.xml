@@ -35,6 +35,27 @@
         <result column="PAC_STATUS" property="pacStatus" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="AddressMap" type="com.ericlai.express.dto.Address">
+        <id column="ADDR_ID" property="addrId" jdbcType="INTEGER" />
+        <result column="ADDR_INFO" property="addrInfo" jdbcType="VARCHAR" />
+        <result column="PERSON_ID" property="personId" jdbcType="VARCHAR" />
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getAddress" resultMap="AddressMap">
+        SELECT
+          addr.ADDR_ID,
+          addr.ADDR_INFO,
+          addr.PERSON_ID,
+          addr.DELETE_FLAG
+        FROM
+          person AS per
+          LEFT JOIN address AS addr ON per.PERSON_ID = addr.PERSON_ID
+        WHERE
+          per.PERSON_ID = #{personId}
+          AND per.DELETE_FLAG != 1
+    </select>
+
     <select id="getPackageInfoByPhone" resultMap="BaseResultMap">
         SELECT
           pac.PAC_ID,PAC_STATUS,
@@ -57,15 +78,15 @@
             AND poster.DELETE_FLAG != 1
     </select>
 
-    <select id="getPackageIdByPhone" resultMap="BaseResultMap1">
+    <select id="getPackageIdByUserName" resultMap="BaseResultMap1">
         SELECT
           pac.PAC_ID
         FROM package AS pac
             LEFT JOIN person AS sender ON pac.SEND_ID = sender.PERSON_ID
             LEFT JOIN person AS recver ON pac.REC_ID = recver.PERSON_ID
         WHERE
-            sender.PHONE = #{phone}
-            OR recver.PHONE = #{phone}
+            sender.LOG_NM = #{userName}
+            OR recver.LOG_NM = #{userName}
             AND pac.DELETE_FLAG != 1
             AND sender.DELETE_FLAG != 1
             AND recver.DELETE_FLAG != 1
@@ -88,4 +109,6 @@
           AND recver.DELETE_FLAG != 1
           AND poster.DELETE_FLAG != 1
     </select>
+
+
 </mapper>

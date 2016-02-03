@@ -4,24 +4,28 @@
 
 $(document).ready(function(){
     var packageStatus = ["等待寄出","运送途中","等待收件","已经收件"];
+    var genderStatus = ["男","女"];
     var checkMethod = "packageId";
 
+    window.history.pushState(null, null, "/user");
+
     // 获取快件ID，填入选择框当中
-    $.get("/user",function(data){
+    $.get("/user/pacId",function(data){
         var key;
         $('#packageNo').html("");
         for (key in data) {
             $('#packageNo').append("<option value="+data[key]+">"+data[key]+"</option>");
         }
     });
-    //隐藏 查询表格 寄件手机查询 收件手机查询 修改个人资料 修改登录密码
-    $('#queryResult,#sendPhone,#receivePhone,#modifyBox, #modifyPw').hide();
+
+    //隐藏 查询表格 寄件手机查询 收件手机查询 修改个人资料 修改登录密码 个人地址管理
+    $('#queryResult,#sendPhone,#receivePhone,#modifyBox, #modifyPw, #addressBox').hide();
 
     // 按下 按快件编号查询按键
     $('#packageQuery').css('color', "red").click(function() {
         checkMethod = "packageId";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
         // 显示本身
         $('#queryBox').show();
         $('#packageId').show();
@@ -33,7 +37,7 @@ $(document).ready(function(){
     $('#receiveQuery').click(function() {
         checkMethod = "receivePhone";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
         // 显示本身
         $('#queryBox').show();
         $('#receivePhone').show();
@@ -45,7 +49,7 @@ $(document).ready(function(){
     $('#sendQuery').click(function() {
         checkMethod = "sendPhone";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
         // 显示本身
         $('#queryBox').show();
         $('#sendPhone').show();
@@ -54,25 +58,81 @@ $(document).ready(function(){
     });
 
     //按下 修改个人信息按键
-    $('#modifyInfo').click(function(){
-        $('#queryBox').hide();
+    $('#modifyInfo').click(function() {
+        $('#queryBox, #modifyPw, #addressBox, #queryResult').hide();
         $('#modifyBox').show();
         reSetColor(this);
-        $.get("/user/modify",function(data){
+        $.get("/user/modify",function(data) {
             $('#personId').attr("value", data.personId);
             $('#personNm').attr("value", data.name);
             $('#phone').attr("value", data.phone);
             $('#logNm').attr("value", data.logNm);
+            var gender = data.gender;
+            if (gender == "0") {
+                $('#male').attr("checked","checked");
+            }else {
+                $('#female').attr("checked","checked");
+            }
+
         });
     });
 
     //按下 修改登录密码按键
-    $('#modifyLogPw').click(function(){
-        $('#queryBox, #modifyBox').hide();
+    $('#modifyLogPw').click(function() {
+        $('#queryBox, #modifyBox, #addressBox, #queryResult').hide();
         $('#modifyPw').show();
         reSetColor(this);
 
     });
+
+
+
+    //按下 个人地址管理按键
+    $('#addressManage').click(function() {
+        $('#queryBox, #modifyBox, #modifyPw, #queryResult').hide();
+        $('#addressBox').show();
+        reSetColor(this);
+        var personId = $('#personId').val();
+        var data = {personId: personId};
+        var count = 0;
+        $.get("/user/address", data, function (data) {
+            $('#addressRecord').html("");
+            if (data.result == "success") {
+                var len = data.address.length;
+                for (var i = 0; i < len; i++) {
+                    count++;
+                    $('#addressRecord').append("<tr>"
+                        +"<td>"+count+"</td>"
+                        +"<td>"+data.address[i].addrInfo+"</td>"
+                        +"<td>"+'<a href="JavaScript:void(0);" class="delete">'+"<input type='hidden' name='addrId'"+"value="+data.address[i].addrId+">"+"删除"+'</a>'+"</td>"+
+                        "</tr>"
+                    );
+                }
+            }
+        });
+    });
+
+    //按下 删除地址按键
+    $(document).on('click', '.delete', function() {
+        var addrId = $($(this).children()).attr("value");
+        var choseRow = $(this).parents("tr");
+        var data = {addrId: addrId};
+        layer.confirm('您确定要删除这个地址吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.post("/user/addrDelete", data, function(data) {
+                if (data.result == "success") {
+                    layer.alert('地址删除成功');
+                    $(choseRow).remove();
+                } else {
+                    layer.alert('地址删除失败, 请重新尝试');
+                }
+            });
+        }, function(){});
+    });
+
+    //按下 增加地址按键
+
 
     //按下 确认修改信息按键
     $('#sureModify').click(function(){
@@ -80,11 +140,12 @@ $(document).ready(function(){
         layer.confirm('您确定要修改个人信息吗？', {
             btn: ['确定','取消'] //按钮
         }, function(){
-            var personId = $('#personId').attr();
-            var name = $('#personNm').attr("value");
-            var phone = $('#phone').attr("value");
-            var logNm = $('#logNm').attr("value");
-            var data = {persoId:personId, name:name, phone:phone, logNm:logNm};
+            var personId = $('#personId').val();
+            var name = $('#personNm').val();
+            var phone = $('#phone').val();
+            var logNm = $('#logNm').val();
+            var gender = $('[name="gender"]:checked').val();
+            var data = {personId:personId, name:name, phone:phone, logNm:logNm, gender:gender};
             $.post("user/modifyInfo", data, function(data){
                 if (data.result == "success") {
                     layer.alert('个人信息修改成功');
@@ -97,16 +158,17 @@ $(document).ready(function(){
 
     //按下 确认修改密码按键
     $('#changePw').click(function() {
-        var oldPw = $("#oldPw").attr("value");
-        var password = $("#newPw").attr("value");
-        var againPw = $("#againNewPw").attr("value");
+        var personId = $('#personId').val();
+        var oldPw = $("#oldPw").val();
+        var password = $("#newPw").val();
+        var againPw = $("#againNewPw").val();
         if (oldPw != null || password != null || againPw != null) {
             //询问框
             layer.confirm('您确定要修改登录密码吗？', {
                 btn: ['确定', '取消'] //按钮
             }, function () {
                 if (password == againPw) {
-                    var data = {oldPw:oldPw, password: password};
+                    var data = {personId:personId, oldPw:oldPw, newPw: password};
                     $.post("user/modifyPw", data, function (data) {
                         if (data.result == "success") {
                             layer.alert('登录密码修改成功');
@@ -161,6 +223,7 @@ $(document).ready(function(){
             $('#queryResult').show();
         });
     });
+
     function reSetColor(selector) {
         $('#record').html("");
         $('.show_finger').css('color', "lightseagreen");

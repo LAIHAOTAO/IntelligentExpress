@@ -1,6 +1,7 @@
 package com.ericlai.express.common;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -9,6 +10,11 @@ import java.io.PrintWriter;
  */
 public class PublicMethod {
 
+    /**
+     * 将json格式的数据返回前端
+     * @param response
+     * @param json json格式数据
+     */
     public static void SendJsonToFront(HttpServletResponse response, String json) {
         PrintWriter out = null;
         //设置格式

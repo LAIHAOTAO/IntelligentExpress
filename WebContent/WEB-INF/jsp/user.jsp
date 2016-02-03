@@ -12,7 +12,7 @@
     <title>user</title>
     <link href="../../css/style.css" type="text/css" rel="stylesheet">
     <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
-    <script src="../../layer/layer.js"/>
+    <script src="../../layer/layer.js"></script>
     <script src="../../js/user.js"></script>
 </head>
 <body>
@@ -25,7 +25,7 @@
 </div>
 
 <div class="info">
-    <span class="greeting">亲爱的 <span id="name">${name} ${gender}</span> 您好!</span>
+    <span class="greeting">亲爱的 <span id="name">${name}</span><span id="gender">${gender}</span> 您好!</span>
     <span class="date"><%@ include file="time.jsp" %></span>
 </div>
 
@@ -45,9 +45,9 @@
                 <select name="packageNo" id="packageNo" style="width:150px">
                 </select></div>
             <div id="receivePhone" class="query">收件人手机号:
-                <input type="text" name="receivePhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
+                <input type="text" name="receivePhone" size="11" value="${phone}" readonly="readonly"/></div>
             <div id="sendPhone" class="query">寄件人手机号:
-                <input type="text" name="sendPhone" size="11" value="${sessionScope.get('user')}" readonly="readonly"/></div>
+                <input type="text" name="sendPhone" size="11" value="${phone}" readonly="readonly"/></div>
             <div class="center"><br/><input id="queryButton" type="submit" value="开始查询"/></div>
 
             <div class="resultTableBox" id="queryResult">
@@ -71,10 +71,16 @@
             </div>
         </div>
         <div id="modifyBox" class="insideBox">
-            <P>身份ID：<input type="text" id="personId" size="14" class="right" readonly="readonly" /></P>
+            <P>身份ID：<input type="text" id="personId" size="14" class="right" readonly="readonly" value="${personId}"/></P>
             <p>姓名： <input type="text" id="personNm" size="14" class="right" /></p>
             <p>手机号码：<input type="text" id="phone" size="14" class="right" /></p>
             <p>登录名：<input type="text" id="logNm" size="14" class="right" /></p>
+            <p>性别：
+                <span id="rightRadio">
+                    <input type="radio" name="gender"  class="gender" id="male" value="0" />男
+                    <input type="radio" name="gender" class="gender" id="female" value="1"/>女
+                </span>
+            </p>
             <p class="center"><input type="submit" id="sureModify" value="修改信息" /></p>
         </div>
         <div id="modifyPw" class="insideBox">
@@ -82,6 +88,21 @@
             <p>新密码：<input type="password" id="newPw" class="right" size="14" /></p>
             <p>再次新密码：<input type="password" id="againNewPw" class="right" size="14" /></p>
             <p class="center"><input type="submit" id="changePw" value="修改密码" /></p>
+        </div>
+        <div id="addressBox" class="insideBox">
+            <table class="table-normal" width="100%">
+                <thead>
+                <tr>
+                    <th width="30%">地址编号</th>
+                    <th width="50%">详细地址</th>
+                    <th width="20%">操作</th>
+                </tr>
+                </thead>
+                <tbody id="addressRecord">
+                </tbody>
+            </table>
+            <br/>
+            <p class="center"><input type="submit" value="增加新的地址" /></p>
         </div>
     </div>
 </div>

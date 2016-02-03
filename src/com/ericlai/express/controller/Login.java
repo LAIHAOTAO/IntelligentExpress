@@ -1,6 +1,7 @@
 package com.ericlai.express.controller;
 
 import com.ericlai.express.common.Constant;
+import com.ericlai.express.common.PublicMethod;
 import com.ericlai.express.dto.Person;
 import com.ericlai.express.model.LoginModel;
 import com.ericlai.express.service.LoginServiceImpl;
@@ -68,6 +69,8 @@ public class Login {
 				}
 				model.addAttribute("name", name);
 				model.addAttribute("gender", gender);
+				model.addAttribute("phone", person.getPhone());
+				model.addAttribute("personId", person.getPersonId());
 				if (Objects.equals(role, Constant.ADMIN)) {
 					return "sysManager";
 				} else if (Objects.equals(role, Constant.POSTMAN)) {

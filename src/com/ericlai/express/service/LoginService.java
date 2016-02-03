@@ -9,8 +9,18 @@ import java.util.Map;
  */
 public interface LoginService {
 
+    /**
+     * 通过用户名获取密码
+     * @param name
+     * @return
+     */
     String getPwByUserName(String name);
 
+    /**
+     * 通过用户名获取某人的所有信息
+     * @param name
+     * @return
+     */
     Person getPersonByUserName(String name);
 
 }

@@ -1,7 +1,9 @@
 package com.ericlai.express.service;
 
+import com.ericlai.express.dao.AddressMapper;
 import com.ericlai.express.dao.PersonMapper;
 import com.ericlai.express.dao.QueryMapper;
+import com.ericlai.express.dto.Address;
 import com.ericlai.express.dto.Person;
 import com.ericlai.express.dto.QueryDto;
 import com.ericlai.express.util.GetBeanMap;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private PersonMapper personMapper;
 
+    @Resource
+    private AddressMapper addressMapper;
+
     private Logger log = LogManager.getLogger(UserServiceImpl.class.getName());
 
     @Override
@@ -37,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<QueryDto> getPackageIdByPhone(String phone) {
-        return this.queryMapper.getPackageIdByPhone(phone);
+    public List<QueryDto> getPackageIdByUserName(String userName) {
+        return this.queryMapper.getPackageIdByUserName(userName);
     }
 
     @Override
@@ -47,29 +52,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Person person) {
-        return this.personMapper.updateByPrimaryKeySelective(person);
+    public int updateByPrimaryKeySelective(Person record) {
+        return this.personMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public void updataLogPw(String oldPw, String newPw) {
-        personMapper.updataLogPw(oldPw, newPw);
+    public List<Address> getAddress(String personId) {
+        return this.queryMapper.getAddress(personId);
     }
 
     @Override
-    public String getAjaxResponse(List<QueryDto> list) {
+    public Person getPersonByUserName(String name) {
+        return this.personMapper.getPersonByUserName(name);
+    }
+
+    @Override
+    public String getPwByUserName(String name) {
+        return this.personMapper.getPwByUserName(name);
+    }
+
+    @Override
+    public String getAjaxResponse(List<?> list, String type) {
         log.debug("getAjaxResponse begin");
         ArrayList<String> subKey = new ArrayList<>();
         ArrayList<Map<String,String>> subValue = new ArrayList<>();
         Map<String, String> mainMap = new HashMap<>();
         mainMap.put("result", "success");
-        subKey.add("queryDto");
+        subKey.add(type);
         //遍历数据库查出来的所有记录
-        for (QueryDto aList : list) {
+        for (Object aList : list) {
             Map<String, String> utilMap = GetBeanMap.getBeanFieldAndValue(aList);
             subValue.add(utilMap);
         }
         return JsonBuildUtil.packToObject(mainMap,subKey,subValue);
+    }
+
+    @Override
+    public int addrDeleteByPrimaryKey(int addrId) {
+        return this.addressMapper.deleteByPrimaryKey(addrId);
     }
 
 }

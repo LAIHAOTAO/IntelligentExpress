@@ -35,13 +35,17 @@
     PERSON_ID, ID_CRL,
     NAME,
     PHONE, LOG_PW, GENDER,
-    LOG_NM
+    LOG_NM,DELETE_FLAG
     FROM
     person
     WHERE
     LOG_NM = #{name}
     AND person.DELETE_FLAG != 1
   </select>
+
+  <update id="updataLogPw">
+    UPDATE person SET LOG_PW = #{newPw} WHERE LOG_PW = #{oldPw}
+  </update>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--

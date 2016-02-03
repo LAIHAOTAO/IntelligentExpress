@@ -7,6 +7,7 @@
 
 $(document).ready(function(){
     $('#mistake').text("");
+    window.history.pushState(null, null, '/login');
     var result = $('#result').val();
     if (result == 4) {
         $('#mistake').text("用户名或密码或身份信息不能为空");
