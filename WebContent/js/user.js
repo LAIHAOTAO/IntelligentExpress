@@ -19,13 +19,13 @@ $(document).ready(function(){
     });
 
     //隐藏 查询表格 寄件手机查询 收件手机查询 修改个人资料 修改登录密码 个人地址管理
-    $('#queryResult,#sendPhone,#receivePhone,#modifyBox, #modifyPw, #addressBox').hide();
+    $('#queryResult,#sendPhone,#receivePhone,#modifyBox, #modifyPw, #addressBox, #addAddress').hide();
 
     // 按下 按快件编号查询按键
     $('#packageQuery').css('color', "red").click(function() {
         checkMethod = "packageId";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult, #addAddress').hide();
         // 显示本身
         $('#queryBox').show();
         $('#packageId').show();
@@ -37,7 +37,7 @@ $(document).ready(function(){
     $('#receiveQuery').click(function() {
         checkMethod = "receivePhone";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult, #addAddress').hide();
         // 显示本身
         $('#queryBox').show();
         $('#receivePhone').show();
@@ -49,7 +49,7 @@ $(document).ready(function(){
     $('#sendQuery').click(function() {
         checkMethod = "sendPhone";
         // 隐藏无关元素
-        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult').hide();
+        $('.query, #modifyBox, #modifyPw, #addressBox, #queryResult, #addAddress').hide();
         // 显示本身
         $('#queryBox').show();
         $('#sendPhone').show();
@@ -59,7 +59,7 @@ $(document).ready(function(){
 
     //按下 修改个人信息按键
     $('#modifyInfo').click(function() {
-        $('#queryBox, #modifyPw, #addressBox, #queryResult').hide();
+        $('#queryBox, #modifyPw, #addressBox, #queryResult, #addAddress').hide();
         $('#modifyBox').show();
         reSetColor(this);
         $.get("/user/modify",function(data) {
@@ -79,17 +79,16 @@ $(document).ready(function(){
 
     //按下 修改登录密码按键
     $('#modifyLogPw').click(function() {
-        $('#queryBox, #modifyBox, #addressBox, #queryResult').hide();
+        $('#queryBox, #modifyBox, #addressBox, #queryResult, #addAddress').hide();
         $('#modifyPw').show();
         reSetColor(this);
-
     });
 
 
 
     //按下 个人地址管理按键
     $('#addressManage').click(function() {
-        $('#queryBox, #modifyBox, #modifyPw, #queryResult').hide();
+        $('#queryBox, #modifyBox, #modifyPw, #queryResult, #addAddress').hide();
         $('#addressBox').show();
         reSetColor(this);
         var personId = $('#personId').val();
@@ -130,9 +129,6 @@ $(document).ready(function(){
             });
         }, function(){});
     });
-
-    //按下 增加地址按键
-
 
     //按下 确认修改信息按键
     $('#sureModify').click(function(){

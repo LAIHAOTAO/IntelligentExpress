@@ -213,7 +213,11 @@ public class User {
         PublicMethod.SendJsonToFront(response, json);
     }
 
-
+    /**
+     * Ajax删除某用户的已有地址信息
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "addrDelete", method = RequestMethod.POST)
     public void addrDelete(HttpServletRequest request, HttpServletResponse response) {
         String addrId = request.getParameter("addrId");

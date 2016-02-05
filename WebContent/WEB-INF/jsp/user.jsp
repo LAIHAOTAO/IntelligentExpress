@@ -101,8 +101,6 @@
                 <tbody id="addressRecord">
                 </tbody>
             </table>
-            <br/>
-            <p class="center"><input type="submit" value="增加新的地址" /></p>
         </div>
     </div>
 </div>
