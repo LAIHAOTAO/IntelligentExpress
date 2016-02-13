@@ -31,14 +31,23 @@ public class Login {
 	@Resource
 	private LoginServiceImpl loginService;
 
-	//请求登录页面
+	/**
+	 * 请求登陆页面
+	 * @return login.jsp
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login() {
 		log.debug("login");
 		return "login";
 	}
 
-	//请求登录操作
+	/**
+	 * 请求登录
+	 * @param login
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "loginCheck", method = RequestMethod.POST)
 	public String check(LoginModel login, Model model, HttpSession session) {
 		log.debug("login check begin");
@@ -86,7 +95,7 @@ public class Login {
 		return "login";
 	}
 
-	public boolean checkRight(String name, String password) {
+	private boolean checkRight(String name, String password) {
 		log.debug("Login checkRight");
 		String rightPw = loginService.getPwByUserName(name);
 		log.debug("rightPw is: " + rightPw);

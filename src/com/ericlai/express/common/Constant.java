@@ -1,5 +1,7 @@
 package com.ericlai.express.common;
 
+import javax.print.DocFlavor;
+
 /**
  * Created by ERIC_LAI on 15/11/27.
  */
@@ -15,5 +17,7 @@ public class Constant {
     public static final String MALE = "0";
     public static final String FEMALE = "1";
 
+    public static final String DO_NOT_DELETE = "0";
+    public static final String DO_DELETE = "1";
 
 }

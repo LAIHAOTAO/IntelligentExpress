@@ -4,7 +4,6 @@ import com.ericlai.express.common.PublicMethod;
 import com.ericlai.express.dto.Address;
 import com.ericlai.express.dto.Person;
 import com.ericlai.express.dto.QueryDto;
-import com.ericlai.express.service.LoginServiceImpl;
 import com.ericlai.express.service.UserServiceImpl;
 import com.ericlai.express.util.GetBeanMap;
 import com.ericlai.express.util.JsonBuildUtil;
@@ -14,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 用户操作页面模块控制器代码

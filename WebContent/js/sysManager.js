@@ -4,28 +4,30 @@
 
 $(document).ready(function(){
 
-    //按下登出按钮
-    $('#logout').click(function(){
-       var confirm = window.confirm("您确定要登出吗?");
-       if (confirm == true) {
-           $.get("login/logout", returnLoginPage);
-       }
-    });
-
-    //返回登录页面的回调
-    function returnLoginPage(response){
-        if (response.status == "success") {
-            //TODO:实现登出的服务器端清除session操作
-            window.location.href = "login";
-        } else {
-            alert("登出失败,为了您的信息安全请重试.");
-        }
-    }
+    $('#addBox, #manageBox').hide();
+    $('#addBox').show();
 
     //按下添加邮递员按钮
     $('#addPostman').click(function(){
         $('#manageBox').hide();
         $('#addBox').show();
+        var name = $('#posterNm').val();
+        var phone = $('#posterPh').val();
+        var logNm = $('#posterLogNm').val();
+        var logPw = $('#posterLogPw').val();
+        var gender = $('[name="gender"]:checked').val();
+        if (name != null && phone != null && logNm != null && logPw != null && gender != null) {
+            var data = {name: name, phone: phone, logNm: logNm, logPw: logPw, gender: gender};
+            $.post("/sysManager/addPostman", data, function(data){
+                if (data.result == "success") {
+                    layer.alert('邮递员添加成功');
+                } else {
+                    layer.alert('邮递员添加失败, 请重新尝试');
+                }
+            });
+        }else {
+            layer.alert("请填完以上的必填信息");
+        }
     });
 
     //按下管理邮递员按钮
