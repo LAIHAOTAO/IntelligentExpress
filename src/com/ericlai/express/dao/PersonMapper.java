@@ -2,10 +2,19 @@ package com.ericlai.express.dao;
 
 import com.ericlai.express.dto.Person;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface PersonMapper {
+
+    /**
+     * 获取所有的邮递员信息
+     * @return
+     */
+    List<Person> getPostman();
 
     /**
      * 通过用户名获取密码

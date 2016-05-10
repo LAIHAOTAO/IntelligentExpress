@@ -17,6 +17,17 @@
     <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
   </resultMap>
 
+  <resultMap id="BaseResultMap1" type="com.ericlai.express.dto.Person">
+    <id column="PERSON_ID" jdbcType="VARCHAR" property="personId" />
+    <result column="ID_CRL" jdbcType="CHAR" property="idCrl" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="LOG_PW" jdbcType="VARCHAR" property="logPw" />
+    <result column="GENDER" jdbcType="CHAR" property="gender" />
+    <result column="LOG_NM" jdbcType="VARCHAR" property="logNm" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbggenerated
@@ -25,6 +36,11 @@
     -->
     PERSON_ID, ID_CRL, NAME, PHONE, LOG_PW, GENDER, LOG_NM, DELETE_FLAG
   </sql>
+  
+  <select id="getPostman" resultMap="BaseResultMap">
+    SELECT * FROM person WHERE ID_CRL = 1
+    AND DELETE_FLAG != 1
+  </select>
 
   <select id="getPwByUserName" resultType="java.lang.String">
     SELECT LOG_PW FROM person WHERE LOG_NM = #{name}

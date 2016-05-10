@@ -63,14 +63,6 @@ public interface UserService {
     String getPwByUserName(String name);
 
     /**
-     * 获取Ajax请求回复的数据
-     * @param list
-     * @param type
-     * @return
-     */
-    String getAjaxResponse(List<?> list, String type);
-
-    /**
      * 通过addrId删除地址信息
      * @param addrId
      * @return

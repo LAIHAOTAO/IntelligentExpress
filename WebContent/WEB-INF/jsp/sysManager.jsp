@@ -47,11 +47,22 @@
                 <input name="gender" type="radio" value="0"/>男&nbsp;&nbsp;
                 <input name="gender" type="radio" value="1"/>女</span>
             </p>
-            <p class="center"><input type="submit" value="添加新邮递员"/></p>
+            <p class="center"><input type="submit" value="添加新邮递员" id="addNewPostman"/></p>
         </div>
 
-        <div id="manageBox" class="hide">
-
+        <div id="manageBox" class="insideBox">
+            <table class="table-normal" width="100%">
+                <thead>
+                <tr>
+                    <th width="30%">编号</th>
+                    <th width="25%">姓名</th>
+                    <th width="25%">手机号</th>
+                    <th width="20%">操作</th>
+                </tr>
+                </thead>
+                <tbody id="postmanRecord">
+                </tbody>
+            </table>
         </div>
 
     </div>

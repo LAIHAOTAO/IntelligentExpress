@@ -47,7 +47,7 @@
         </javaClientGenerator>
 
         <!--在这里指定需要操作的表名-->
-        <table tableName="%"
+        <table tableName="dynamicqr"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />

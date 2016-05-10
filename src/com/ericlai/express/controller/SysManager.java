@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +35,15 @@ public class SysManager {
     @RequestMapping(value = "sysManager", method = RequestMethod.GET)
     public String sysManager() {
         return "sysManager";
+    }
+
+    @RequestMapping(value = "managePostman", method = RequestMethod.GET)
+    public void getPostman(HttpServletResponse response) {
+        log.debug("get all postman");
+        List<Person> list = sysManageService.getPostman();
+        String json = PublicMethod.getAjaxResponse(list, "postman");
+        log.debug("postman result in json type: " + json);
+        PublicMethod.SendJsonToFront(response, json);
     }
 
     @RequestMapping(value = "addPostman", method = RequestMethod.POST)
@@ -67,10 +77,20 @@ public class SysManager {
         PublicMethod.SendJsonToFront(response, json);
     }
 
-    @RequestMapping(value = "managePostman", method = RequestMethod.GET)
-    public String getManagePostman() {
-        //TODO: 管理邮递员的逻辑
-        return "managePostman";
+    @RequestMapping(value = "deletePostman", method = RequestMethod.GET)
+    public void deletePostman(HttpServletRequest request, HttpServletResponse response) {
+        String personId = request.getParameter("personId");
+        log.debug("postman delete: " + personId);
+        Map<String, String> mainMap = new HashMap<>();
+        try {
+            sysManageService.deletePostman(personId);
+            mainMap.put("result", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mainMap.put("result", "fail");
+        }
+        String json = JsonBuildUtil.packToObject(mainMap, null, null);
+        log.debug(json);
+        PublicMethod.SendJsonToFront(response, json);
     }
-
 }

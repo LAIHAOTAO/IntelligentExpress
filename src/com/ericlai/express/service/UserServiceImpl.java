@@ -72,22 +72,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getAjaxResponse(List<?> list, String type) {
-        log.debug("getAjaxResponse begin");
-        ArrayList<String> subKey = new ArrayList<>();
-        ArrayList<Map<String,String>> subValue = new ArrayList<>();
-        Map<String, String> mainMap = new HashMap<>();
-        mainMap.put("result", "success");
-        subKey.add(type);
-        //遍历数据库查出来的所有记录
-        for (Object aList : list) {
-            Map<String, String> utilMap = GetBeanMap.getBeanFieldAndValue(aList);
-            subValue.add(utilMap);
-        }
-        return JsonBuildUtil.packToObject(mainMap,subKey,subValue);
-    }
-
-    @Override
     public int addrDeleteByPrimaryKey(int addrId) {
         return this.addressMapper.deleteByPrimaryKey(addrId);
     }

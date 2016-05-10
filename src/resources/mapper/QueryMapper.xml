@@ -50,7 +50,7 @@
           addr.DELETE_FLAG
         FROM
           person AS per
-          LEFT JOIN address AS addr ON per.PERSON_ID = addr.PERSON_ID
+          INNER JOIN address AS addr ON per.PERSON_ID = addr.PERSON_ID
         WHERE
           per.PERSON_ID = #{personId}
           AND per.DELETE_FLAG != 1
